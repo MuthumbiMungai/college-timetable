@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Timetabling Tool - Modular Version</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎓 College Timetabling Tool</h1>
+            <p>Applied Sciences Department - Schedule Management System</p>
+        </header>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <button class="btn btn-primary" id="btnAddClass">➕ Add New Class</button>
+            <button class="btn btn-secondary" id="btnClearAll">🗑️ Clear All</button>
+            <button class="btn btn-export" id="btnExport">📊 Export Schedule</button>
+            <button class="btn btn-secondary" id="btnLoadSample">📋 Load Sample Data</button>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Statistics Dashboard -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalClasses">0</div>
+                    <div class="stat-label">Total Classes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalCourses">0</div>
+                    <div class="stat-label">Active Courses</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalTrainers">0</div>
+                    <div class="stat-label">Trainers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalVenues">0</div>
+                    <div class="stat-label">Venues</div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters">
+                <div class="form-group">
+                    <label for="courseFilter">Filter by Course:</label>
+                    <select id="courseFilter">
+                        <option value="">All Courses</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="trainerFilter">Filter by Trainer:</label>
+                    <select id="trainerFilter">
+                        <option value="">All Trainers</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="venueFilter">Filter by Venue:</label>
+                    <select id="venueFilter">
+                        <option value="">All Venues</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Timetable -->
+            <div class="timetable-container">
+                <table class="timetable">
+                    <thead>
+                        <tr>
+                            <th>DAYS</th>
+                            <th>COURSE</th>
+                            <th>INTAKE</th>
+                            <th class="time-header">8:00 AM - 10:00 AM</th>
+                            <th class="time-header">10:30 AM - 12:30 PM</th>
+                            <th class="time-header">2:00 PM - 4:00 PM</th>
+                        </tr>
+                    </thead>
+                    <tbody id="timetableBody">
+                        <!-- Generated dynamically by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for Adding/Editing Classes -->
+    <div id="classModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Add New Class</h2>
+                <span class="close" id="btnModalClose">&times;</span>
+            </div>
+
+            <form id="classForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="courseCode">Course Code:</label>
+                        <select id="courseCode" required>
+                            <option value="">Select Course</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="intake">Intake:</label>
+                        <input type="text" id="intake" placeholder="e.g., SEP 25" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="day">Day:</label>
+                        <select id="day" required>
+                            <option value="">Select Day</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="timeSlot">Time Slot:</label>
+                        <select id="timeSlot" required>
+                            <option value="">Select Time</option>
+                            <option value="0">8:00 AM - 10:00 AM</option>
+                            <option value="1">10:30 AM - 12:30 PM</option>
+                            <option value="2">2:00 PM - 4:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject/Unit:</label>
+                    <input type="text" id="subject" placeholder="e.g., Engineering Tech Maths I" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="trainer">Trainer:</label>
+                        <select id="trainer" required>
+                            <option value="">Select Trainer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="venue">Venue:</label>
+                        <select id="venue" required>
+                            <option value="">Select Venue</option>
+                        </select>
+                        <div id="capacityInfo" style="font-size: 12px; color: #666; margin-top: 5px; display: none;">
+                            📊 Capacity: <span id="selectedCapacity"></span> seats
+                        </div>
+                    </div>
+                </div>
+
+                <div class="conflict-warning" id="conflictWarning">
+                    ⚠️ Conflict detected! This time slot conflicts with existing classes.
+                </div>
+
+                <div class="form-row">
+                    <button type="button" class="btn btn-secondary" id="btnCancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Class</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Load JavaScript Modules -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
