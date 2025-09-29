@@ -361,9 +361,9 @@ For issues or questions:
 
 ## Credits
 
-Developed for IMPERIAL COLLEGE OF MEDICAL AND HEALTH SCIENCES
-BY: ANDREW MUNGAI 
-Initial deployment: 2025
+Developed for **IMPERIAL COLLEGE OF MEDICAL AND HEALTH SCIENCES**
+BY:** ANDREW MUNGAI **
+Initial deployment: **2025**
 
 ---
 
